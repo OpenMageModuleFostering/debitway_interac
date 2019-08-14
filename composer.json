@@ -3,11 +3,11 @@
     "type": "magento-module",
     "license": "Open-Software-License",
     "homepage": "",
-    "description": "This extension incorporates the DebitWay Credit Card Module
-",
+    "description": "This is an extension which can be used for Interac Online Payment Method with DebitWay. It adds 'DebitWay Interac Online Payment Module' as a payment method during checkout.
+ ",
     "authors": [
     {
-        "name": "ramya",
+        "name": "Ramya",
         "email": "tech@debitway.ca"
     }
 ],

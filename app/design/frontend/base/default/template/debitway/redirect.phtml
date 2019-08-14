@@ -8,6 +8,7 @@ $_order->loadByIncrementId($orderId);
 $items = $_order->getAllItems();
  
 $item_name_total ="";
+$item_quantity = 0;
 foreach($items as $item) {
 	$qty = round($item->getData('qty_ordered'));
 	$name = $item->getName();
@@ -15,11 +16,13 @@ foreach($items as $item) {
 	if($item_name_total!=null){
 		$item_name_total .='-';
 	}
+    $item_quantity += $qty;
 	$item_name_total .=$item_total;
 
 }
 $currency_code = $_order->getBaseCurrencyCode();
-$grandTotal1 = number_format($_order->getGrandTotal(),2);
+$grandTotal1 = number_format($_order->getBaseGrandTotal(), 2, '.', '');
+
 
 //$this->_order = Mage::getSingleton('sales/order')->loadByIncrementId();
     
@@ -72,7 +75,7 @@ $return_url .= 'debitway/payment/response';
     <input type="hidden" name="website_unique_id" value="<?php echo $website_unique_id; ?>">
     <input type="hidden" name="merchant_transaction_id" value="<?php echo $orderId; ?>">
     <input type="hidden" name="item_name" value="<?php echo $item_name_total; ?>">
-    <input type="hidden" name="quantity" value="1">
+    <input type="hidden" name="quantity" value="<?php echo $item_quantity; ?>">
     <input type="hidden" name="amount" value="<?php echo $grandTotal1; ?>">
     <input type="hidden" name="return_url" value="<?php echo $return_url; ?>">
     <input type="hidden" name="language" value="EN">

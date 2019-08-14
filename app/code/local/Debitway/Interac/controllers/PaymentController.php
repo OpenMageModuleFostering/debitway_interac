@@ -171,7 +171,7 @@ class Debitway_Interac_PaymentController extends Mage_Core_Controller_Front_Acti
 				$order = Mage::getModel('sales/order');
 				$order->load($this->getCheckout()->getLastOrderId());		
 				$order->cancel();
-				$order->addStatusToHistory($order->getStatus(), Mage::helper('debitway')->__('Cancelation of payment')); 
+				$order->addStatusToHistory($order->getStatus(), Mage::helper('debitway')->__('Cancelation of payment:'.$error)); 
 				$order->save();
 
 				//save the transaction id
