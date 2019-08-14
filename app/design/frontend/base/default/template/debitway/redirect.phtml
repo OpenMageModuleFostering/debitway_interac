@@ -1,0 +1,98 @@
+<?php
+// Retrieve order
+$_order = new Mage_Sales_Model_Order();
+$orderId = Mage::getSingleton('checkout/session')->getLastRealOrderId();
+$_order->loadByIncrementId($orderId);
+
+
+$items = $_order->getAllItems();
+ 
+$item_name_total ="";
+foreach($items as $item) {
+	$qty = round($item->getData('qty_ordered'));
+	$name = $item->getName();
+	$item_total = $qty.'*'.$name;
+	if($item_name_total!=null){
+		$item_name_total .='-';
+	}
+	$item_name_total .=$item_total;
+
+}
+$currency_code = $_order->getBaseCurrencyCode();
+$grandTotal1 = number_format($_order->getGrandTotal(),2);
+
+//$this->_order = Mage::getSingleton('sales/order')->loadByIncrementId();
+    
+
+ $billing = $_order->getBillingAddress();
+ $shipping = $_order->getShippingAddress();
+ $params = array(
+                                            
+                    'firstname'  =>  Mage::helper('core')->removeAccents($billing->getFirstname()),
+                    'lastname'  =>  Mage::helper('core')->removeAccents($billing->getLastname()),
+                    'sContactName'  =>  Mage::helper('core')->removeAccents($shipping->getFirstname().' '.$shipping->getLastname()),
+                        
+                        // billing address
+                    'bAddress1' =>  $billing->getStreet1(),
+                    'bAddress2' => $billing->getStreet2(),
+                    'bCity' => $shipping->getCity(),
+                    'bProvince' => $billing->getRegionCode(),
+                    'bCountry' => $billing->getCountry(),
+                    'bPostal' => $billing->getPostcode(),
+                    'bPhone' => $billing->getTelephone(),
+                        
+                        // shipping address 
+                    'sAddress1' => $shipping->getStreet1(),
+                    'sAddress2' => $shipping->getStreet2(),
+                    'sCity' => $shipping->getCity(),
+                    'sProvince' => $shipping->getRegionCode(),
+                    'sCountry' => $shipping->getCountry(),
+                    'sPostal' => $shipping->getPostcode(),
+                    'sPhone' => $shipping->getTelephone(),
+                        
+                    'cPhone' => $_order->getCustomerTelephone(),
+                    'oEmail' => $_order->getCustomerEmail(),
+                    'cfirstname' => $_order->getCustomerFirstname(),
+                    'clastname' => $_order->getCustomerLastname()
+                   
+                   
+    );
+$identifier = trim(Mage::getStoreConfig('payment/debitway/identifier'));
+$vericode =  trim(Mage::getStoreConfig('payment/debitway/vericode'));
+$website_unique_id =  trim(Mage::getStoreConfig('payment/debitway/website_unique_id'));
+
+$integration_url = trim(Mage::getStoreConfig('payment/debitway/integration_url'));
+$return_url = Mage::getBaseUrl (Mage_Core_Model_Store::URL_TYPE_WEB); 
+$return_url .= 'debitway/payment/response';                   
+?>
+<form name="mygatewayform" method="post" action="<?php echo $integration_url; ?>">
+	<!-- <input type="hidden" name="orderid" value="<?php echo $orderId; ?>">
+    <input type="hidden" name="grandtotal" value="<?php echo $_order->getBaseGrandTotal(); ?>"> -->
+    <input type="hidden" name="identifier" value= "<?php echo $identifier; ?>" >
+    <input type="hidden" name="website_unique_id" value="<?php echo $website_unique_id; ?>">
+    <input type="hidden" name="merchant_transaction_id" value="<?php echo $orderId; ?>">
+    <input type="hidden" name="item_name" value="<?php echo $item_name_total; ?>">
+    <input type="hidden" name="quantity" value="1">
+    <input type="hidden" name="amount" value="<?php echo $grandTotal1; ?>">
+    <input type="hidden" name="return_url" value="<?php echo $return_url; ?>">
+    <input type="hidden" name="language" value="EN">
+    <input type="hidden" name="first_name" value="<?php echo $params['cfirstname']; ?>">
+    <input type="hidden" name="last_name" value="<?php echo $params['clastname']; ?>">
+    <input type="hidden" name="email" value="<?php echo $params['oEmail']; ?>">
+    <input type="hidden" name="address" value="<?php echo $params['bAddress1']; ?>">
+    <input type="hidden" name="phone" value="<?php echo $params['sPhone']; ?>">
+    <input type="hidden" name="city" value="<?php echo $params['bCity']; ?>">
+    <input type="hidden" name="state_or_province" value="<?php echo $params['bProvince']; ?>">
+    <input type="hidden" name="zip_or_postal_code" value="<?php echo $params['bPostal']; ?>">
+    <input type="hidden" name="country" value="<?php echo $params['bCountry']; ?>">
+    <input type="hidden" name="shipping_address" value="<?php echo $params['bAddress1']; ?>">
+    <input type="hidden" name="shipping_phone" value="<?php echo $params['sPhone']; ?>">
+    <input type="hidden" name="shipping_city" value="<?php echo $params['sCity']; ?>">
+    <input type="hidden" name="shipping_state_or_province" value="<?php echo $params['sProvince']; ?>">
+    <input type="hidden" name="shipping_zip_or_postal_code" value="<?php echo $params['sPostal']; ?>">
+    <input type="hidden" name="shipping_country" value="<?php echo $params['sCountry']; ?>">
+    <input type="hidden" name="currency" value="<?php echo $currency_code; ?>">
+</form>
+<script type="text/javascript">
+document.mygatewayform.submit();
+</script>

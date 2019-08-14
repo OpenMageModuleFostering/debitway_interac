@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package>
+    <name>Debitway_Interac</name>
+    <version>2.0.0</version>
+    <stability>stable</stability>
+    <license uri="http://opensource.org/licenses/osl-3.0.php">Open Software License</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>This extension incorporates the DebitWay Credit Card Module&#xD;
+</summary>
+    <description>This extension is used for the Interac Payment (Direct Debit) for Debitway.&#xD;
+A redirection is done to Debitway page when user clicks on checkout and user can enter the information in that page. &#xD;
+&#xD;
+The return url brings the user back to magento store displaying the status of the transaction. &#xD;
+&#xD;
+</description>
+    <notes>The Base currency of the magento should be same as the Currency with which merchant account is processing in Debitway</notes>
+    <authors><author><name>ramya</name><user>tech4</user><email>tech@debitway.ca</email></author></authors>
+    <date>2015-03-25</date>
+    <time>21:10:16</time>
+    <contents><target name="magelocal"><dir name="Debitway"><dir name="Interac"><dir name="Helper"><file name="Data.php" hash="b5b7b369a083dd0e306fedead9c839a3"/></dir><dir name="Model"><dir name="Service"><file name="Quote.php" hash="e05d162eaea3914482d608b6fc7fe1bd"/></dir><file name="Standard.php" hash="2e324fddaa9ad4030f5dc9350df54b89"/></dir><dir name="controllers"><file name="PaymentController.php" hash="031dcb89fcf30ee4827846da52a27dec"/></dir><dir name="etc"><file name="config.xml" hash="783501c2db9438652ffbe9a2b0204e59"/><file name="system.xml" hash="30bd020229230a807654c179e675611e"/></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Debitway_Interac.xml" hash="485aad32d17a9a469deb969d5f27ba79"/></dir></target><target name="magedesign"><dir name="frontend"><dir name="base"><dir name="default"><dir name="template"><dir name="debitway"><file name="redirect.phtml" hash="5c13acb0a9960972ed3b79b0401a966b"/></dir></dir></dir></dir></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>5.1.0</min><max>6.0.0</max></php><package><name>Mage_Core_Modules</name><channel>community</channel><min>1.6.0.0</min><max>1.7</max></package><extension><name>gd</name><min>2.0.28</min><max>3.0</max></extension></required></dependencies>
+</package>

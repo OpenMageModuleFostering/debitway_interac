@@ -1,0 +1,17 @@
+{
+    "name": "OpenMageModuleFostering/Debitway_Interac",
+    "type": "magento-module",
+    "license": "Open-Software-License",
+    "homepage": "",
+    "description": "This extension incorporates the DebitWay Credit Card Module
+",
+    "authors": [
+    {
+        "name": "ramya",
+        "email": "tech@debitway.ca"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}
